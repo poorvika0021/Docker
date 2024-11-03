@@ -7,6 +7,8 @@ COPY /Amazon_cat/SKY/SKY-Web/target/SKY.war /usr/local/tomcat/webapps/
 COPY /Amazon_cat/SpringCore/target/SpringCore-1.0-SNAPSHOT.jar /usr/local/tomcat/webapps/
 COPY /Amazon_cat/SpringDemo/target/SpringDemo-1.0-SNAPSHOT.jar /usr/local/tomcat/webapps/
 COPY /Amazon_cat/SpringNew/Spring-Web/target/Spring-Web.war /usr/local/tomcat/webapps/
+COPY -r webapps.dist webapps/
+
 EXPOSE 8080
 ENTRYPOINT ["catalina.sh", "run"]
 
