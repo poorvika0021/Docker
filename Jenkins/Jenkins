@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    environment {
+        SONARQUBE_SERVER = 'Sonarqube'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url:'https://github.com/poorvika0021/Docker'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Add your build steps here
+                sh 'mvn clean install'
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('Sonarqube') {
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=Sonar_postgres_test -Dsonar.login=sqp_68218d2292cd844d4db1dd05e010c7fe247e25e3'
+                }
+            }
+        }
+    }
+    post { 
+        always { 
+            junit 'target/surefire-reports/*.xml' 
+            archiveArtifacts artifacts: 'target/*.jar', 
+            allowEmptyArchive: true 
+            } 
+        } 
+    }
